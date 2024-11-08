@@ -29,8 +29,11 @@ import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.atilsamancioglu.statemanagementcompose.ui.theme.StateManagementComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -52,6 +55,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
 
+    var kullaniciAdi = remember { mutableStateOf("Kullanıcı Adı")}
+    var kullaniciEmail = remember { mutableStateOf("Kullanıcı Email")}
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -59,42 +65,43 @@ fun MainScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        var kullaniciGirdisi = remember { mutableStateOf("") }
-        var textDegeri = remember { mutableStateOf("Merhaba Android")}
-        var paddingDegeri = remember {mutableStateOf(10.dp)}
-
-        TextField(value = kullaniciGirdisi.value, onValueChange = {
-            kullaniciGirdisi.value = it
-        }, placeholder = {
-            Text("Yaşınızı giriniz!")
+        OzelText(string = "Kayıt Formu")
+        Spacer(modifier = Modifier.padding(10.dp))
+        OzelTextField(string = kullaniciAdi.value, onValueChangeFunction = {
+            kullaniciAdi.value = it
         })
-
-        Spacer(modifier = Modifier.padding(paddingDegeri.value))
-        Text(text = textDegeri.value)
-        Spacer(modifier = Modifier.padding(paddingDegeri.value))
+        Spacer(modifier = Modifier.padding(10.dp))
+        OzelTextField(string = kullaniciEmail.value, onValueChangeFunction = {
+            kullaniciEmail.value = it
+        })
+        Spacer(modifier = Modifier.padding(10.dp))
         Button(onClick = {
-            textDegeri.value = "Merhaba Atil"
-            paddingDegeri.value = 20.dp
-        }, enabled = true) {
-            Text("Örnek Button")
+
+        }) {
+            Text("Kayıt Ol")
         }
-        Spacer(modifier = Modifier.padding(paddingDegeri.value))
-        Image(bitmap = ImageBitmap.imageResource(id = R.drawable.istanbul),
-            contentDescription = "Istanbul",
-            modifier = Modifier.size(350.dp, 220.dp)
-            )
-        Spacer(modifier = Modifier.padding(paddingDegeri.value))
-        Image(imageVector = ImageVector.vectorResource(id = R.drawable.ic_launcher_background),
-            contentDescription = "test")
-        Spacer(modifier = Modifier.padding(paddingDegeri.value))
-        Image(painter = ColorPainter(Color.Black),
-            contentDescription = "black",
-            modifier = Modifier.size(100.dp,100.dp)
-            )
 
     }
 
 }
+
+
+@Composable
+fun OzelTextField(string: String, onValueChangeFunction : (String) -> Unit ) {
+    TextField(value = string, onValueChange = onValueChangeFunction, modifier = Modifier.padding(5.dp))
+}
+
+
+@Composable
+fun OzelText(string : String) {
+    Text(text=string,
+        fontSize = 24.sp,
+        fontWeight = FontWeight.Medium,
+        fontStyle = FontStyle.Italic
+        )
+}
+
+
 
 
 @Preview(showBackground = true)
